@@ -1,0 +1,62 @@
+<template>
+  <lightning-card title="Duplicate Record Manager (Leads)" icon-name="utility:merge">
+    <div class="slds-p-around_medium">
+      <div class="slds-m-bottom_medium">
+        <lightning-button
+          variant="neutral"
+          label="Refresh Duplicates"
+          onclick={handleRefresh}
+        ></lightning-button>
+      </div>
+      <template if:true={duplicateGroups}>
+        <template for:each={duplicateGroups} for:item="group">
+          <div key={group.email} class="slds-box slds-m-bottom_medium">
+            <h3 class="slds-text-heading_small">Email: {group.email}</h3>
+            <table class="slds-table slds-table_bordered">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Company</th>
+                  <th>Created Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template for:each={group.records} for:item="record">
+                  <tr key={record.Id}>
+                    <td>{record.Name}</td>
+                    <td>{record.Company}</td>
+                    <td>{record.CreatedDate}</td>
+                    <td>
+                      <lightning-button
+                        variant="destructive"
+                        label="Delete"
+                        data-id={record.Id}
+                        onclick={handleDelete}
+                      ></lightning-button>
+                    </td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+            <div class="slds-m-top_small">
+              <lightning-button
+                variant="brand"
+                label="Merge Records"
+                data-email={group.email}
+                onclick={handleMerge}
+                disabled={group.mergeDisabled}
+              ></lightning-button>
+            </div>
+          </div>
+        </template>
+      </template>
+      <template if:false={duplicateGroups}>
+        <p>No duplicate Leads found based on email.</p>
+      </template>
+      <template if:true={error}>
+        <div class="slds-text-color_error">{error}</div>
+      </template>
+    </div>
+  </lightning-card>
+</template>

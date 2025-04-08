@@ -1,0 +1,8 @@
+.slds-box {
+  border: 1px solid #d8dde6;
+  background: #f9fafb;
+}
+
+.slds-table th, .slds-table td {
+  text-align: left;
+}
